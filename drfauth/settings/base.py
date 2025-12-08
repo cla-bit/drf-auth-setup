@@ -181,11 +181,19 @@ PHONENUMBER_DB_FORMAT = "NATIONAL"
 PHONENUMBER_DEFAULT_REGION = "NG"
 PHONENUMBER_DEFAULT_FORMAT = "NATIONAL"
 
+# django-allauth settings
+ACCOUNT_FORMS = {
+    "signup": "users.forms.CustomSignUpForm"
+}
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # dj-rest-auth JWT setup
 REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_COOKIE": "access_token",
-    "JWT_AUTH_REFRESH_COOKIE": "refresh_token"
+    "JWT_AUTH_REFRESH_COOKIE": "refresh_token",
+    "REGISTER_SERIALIZER": "users.serializers.CustomRegistrationSerializer",
 }
 
 # Django rest framework simplejwt configurations
