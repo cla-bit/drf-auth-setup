@@ -35,14 +35,22 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
-MY_APPS = []
+MY_APPS = [
+    "users.apps.UsersConfig"
+]
 
 THIRD_PARTY_APPS = [
     "corsheaders",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
     "django_filters",
+    "dj_rest_auth",
+    "dj_rest_auth.registration",
     "drf_spectacular",
     "phonenumber_field",
     "rest_framework",
+    "rest_framework.authtoken",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
 ]
@@ -57,6 +65,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "drfauth.urls"
@@ -64,7 +73,7 @@ ROOT_URLCONF = "drfauth.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR / "templates"],  # because django-allauth uses django templates
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -104,7 +113,8 @@ REST_FRAMEWORK = {
 }
 
 AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
+    "django.contrib.auth.backends.ModelBackend",  # Needed to login by username in Django admin, regardless of `allauth`
+    "allauth.account.auth_backends.AuthenticationBackend" # `allauth` specific authentication methods, such as login by email
 ]
 
 # Password validation
@@ -151,7 +161,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'users.CustomUser'  # set this before running any makemigration or migrate command
 
 EMAIL_BACKEND = (
     "django.core.mail.backends.console.EmailBackend"  # The backend to use for sending emails
@@ -170,6 +180,13 @@ EMAIL_USE_LOCALTIME = False  # Set to True if you want to use local time zone in
 PHONENUMBER_DB_FORMAT = "NATIONAL"
 PHONENUMBER_DEFAULT_REGION = "NG"
 PHONENUMBER_DEFAULT_FORMAT = "NATIONAL"
+
+# dj-rest-auth JWT setup
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "access_token",
+    "JWT_AUTH_REFRESH_COOKIE": "refresh_token"
+}
 
 # Django rest framework simplejwt configurations
 SIMPLE_JWT = {

@@ -110,3 +110,20 @@ python manage.py runserver
 ```
 
 - Open the server on your browser and view the API endpoints
+
+![Example 1](/static/img/drf_auth_setup1.png "drf-auth-setup api endpoints example")
+
+![Example 2](/static/img/drf_auth_setup2.png "drf-auth-setup api endpoints example")
+
+---------
+
+## Workflow
+
+This project uses a CustomUser object instead of the default django User object.
+
+With this knowledge, you will be able to setup completely and customize your django project to 
+authenticate custom users.
+
+> **TIP**
+> 
+> drf-spectacular library was installed and setup for API documentation.

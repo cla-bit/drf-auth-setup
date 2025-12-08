@@ -16,13 +16,34 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+    SpectacularSwaggerView,
+)
+
 
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("api/accounts/", include('allauth.urls')),  # customize the url pattern to your choice for django-allauth
+    path("api/auth/", include("dj_rest_auth.urls")),  # customize the url pattern to your choice for dj-rest-auth
+    path('api/auth/registration/', include('dj_rest_auth.registration.urls')),  # customize the url pattern to your choice for dj-rest-auth
+    # Schema endpoint
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    # Optional Swagger UI
+    path(
+        "api/schema/swagger-ui/",
+        SpectacularSwaggerView.as_view(url_name="schema"),
+        name="swagger-ui",
+    ),
+    # Optional Redoc UI
+    path("api/schema/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
+
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
