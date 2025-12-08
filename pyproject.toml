@@ -1,0 +1,37 @@
+[project]
+name = "drf-rest-setup"
+version = "0.1.0"
+description = "This project implements how to use dj-rest-auth and django-allauth to sign up, sign in, authenticate users in drf applications."
+authors = [
+    {name = "cla-bit",email = "doublep098@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "django (>=4.2,<6.0)",
+    "dj-rest-auth (>=7.0.1,<8.0.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)",
+    "django-cors-headers (>=4.9.0,<5.0.0)",
+    "psycopg2-binary (>=2.9.11,<3.0.0)",
+    "django-phonenumber-field[phonenumbers] (>=8.4.0,<9.0.0)",
+    "django-filter (>=25.2,<26.0)",
+    "djangorestframework (>=3.16.1,<4.0.0)",
+    "markdown (>=3.10,<4.0)",
+    "django-guardian (>=3.2.0,<4.0.0)",
+    "djangorestframework-simplejwt (>=5.5.1,<6.0.0)"
+]
+
+[tool.poetry]
+package-mode = false
+
+[tool.poetry.group.docs.dependencies]
+drf-spectacular = "^0.29.0"
+
+
+[tool.poetry.group.lint.dependencies]
+ruff = "^0.14.8"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
