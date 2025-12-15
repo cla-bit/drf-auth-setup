@@ -8,6 +8,8 @@ DEBUG = os.getenv("DEBUG")
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",") if not DEBUG else ["*"]
 
+FRONTEND_URL = "http://localhost:3000"  # or your real frontend domain
+
 SITE_ID = 1
 
 # Database

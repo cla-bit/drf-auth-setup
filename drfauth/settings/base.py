@@ -107,7 +107,10 @@ REST_FRAMEWORK = {
         "rest_framework.filters.SearchFilter",
         "rest_framework.filters.OrderingFilter",
     ],
-    "DEFAULT_AUTHENTICATION_CLASSES": ["rest_framework_simplejwt.authentication.JWTAuthentication"],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 100,
 }
@@ -181,19 +184,44 @@ PHONENUMBER_DB_FORMAT = "NATIONAL"
 PHONENUMBER_DEFAULT_REGION = "NG"
 PHONENUMBER_DEFAULT_FORMAT = "NATIONAL"
 
+# login and logout base settings
+# LOGIN_REDIRECT_URL = ""
+# LOGIN_URL = ""
+# LOGOUT_REDIRECT_URL = ""
+
+
 # django-allauth settings
-ACCOUNT_FORMS = {
-    "signup": "users.forms.CustomSignUpForm"
-}
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_ADAPTER = "users.adapter.CustomAccountAdapter"
+# ACCOUNT_FORMS = {
+#     "signup": "users.forms.CustomSignUpForm"
+# }
+ACCOUNT_SIGNUP_FIELDS = [
+    "first_name*", "last_name*", "username*", "email*", "phone_number*",
+    "password1*", "password2", "agreement*"
+]
+ACCOUNT_LOGIN_METHODS = {"email"}
+ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_CONFIRMATION_HMAC = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = False
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1
+ACCOUNT_EMAIL_VERIFICATION_SUPPORTS_RESEND = True
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
+# ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL =
+# ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL =
+# ACCOUNT_RATE_LIMITS = 3
+# ACCOUNT_LOGOUT_REDIRECT_URL = "/"
+
+
 # dj-rest-auth JWT setup
 REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_COOKIE": "access_token",
     "JWT_AUTH_REFRESH_COOKIE": "refresh_token",
+    "JWT_AUTH_HTTPONLY": True,
+    "JWT_AUTH_SAMESITE": "Lax",
     "REGISTER_SERIALIZER": "users.serializers.CustomRegistrationSerializer",
+    "LOGIN_SERIALIZER": "users.serializers.CustomLoginSerializer",
 }
 
 # Django rest framework simplejwt configurations
